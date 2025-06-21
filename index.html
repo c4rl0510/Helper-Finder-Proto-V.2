@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enhanced Helper Finder with Filters</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <p class="tagline" style="font-size:1.1rem;">Reliable Domestic Helper Solutions Tailored to Your Family's Needs</p>
+      </div>
+    </header>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="search"><i class="fas fa-search"></i> Search Helpers</label>
+        <input type="text" id="search" placeholder="Name, skills, or keywords" onkeydown="checkEnter(event)" />
+        <div class="search-hint">Separate multiple terms with commas or spaces</div>
+      </div>
+
+      <div class="filter-group">
+        <label for="nationality"><i class="fas fa-globe-asia"></i> Nationality</label>
+        <select id="nationality">
+          <option value="">All Nationalities</option>
+          <option value="Filipino">Filipino</option>
+          <option value="Indonesian">Indonesian</option>
+          <option value="Burmese">Burmese</option>
+          <option value="Indian">Indian</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="experience"><i class="fas fa-briefcase"></i> Experience</label>
+        <select id="experience">
+          <option value="">All Experience</option>
+          <option value="Myanmar">Myanmar</option>
+          <option value="Philippines">Philippines</option>
+          <option value="Indonesia">Indonesia</option>
+          <option value="Singapore">Singapore</option>
+          <option value="HongKong">HongKong</option>
+          <option value="Taiwan">Taiwan</option>
+          <option value="Middle East">Middle East</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="religion"><i class="fas fa-pray"></i> Religion</label>
+        <select id="religion">
+          <option value="">All Religions</option>
+          <option value="Christianity">Christianity</option>
+          <option value="Islam">Islam</option>
+          <option value="Buddhism">Buddhism</option>
+          <option value="Hinduism">Hinduism</option>
+          <option value="Others">Others</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="heightRange"><i class="fas fa-arrows-alt-v"></i> Height Range</label>
+        <select id="heightRange">
+          <option value="">Any Height</option>
+          <option value="145-150">145-150 cm</option>
+          <option value="150-155">150-155 cm</option>
+          <option value="155-160">155-160 cm</option>
+          <option value="160-165">160-165 cm</option>
+          <option value="165-170">165-170 cm</option>
+          <option value="170-175">170-175 cm</option>
+          <option value="175-180">175-180 cm</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="weightRange"><i class="fas fa-weight"></i> Weight Range</label>
+        <select id="weightRange">
+          <option value="">Any Weight</option>
+          <option value="40-50">40-50 kg</option>
+          <option value="51-60">51-60 kg</option>
+          <option value="61-70">61-70 kg</option>
+          <option value="71-80">71-80 kg</option>
+          <option value="81-90">81-90 kg</option>
+          <option value="91-100">91-100 kg</option>
+          <option value="101-110">101-110 kg</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="salaryRange"><i class="fas fa-dollar-sign"></i> Salary Range</label>
+        <select id="salaryRange">
+          <option value="">Any Salary</option>
+          <option value="500-600">S$500 - S$600</option>
+          <option value="601-700">S$601 - S$700</option>
+          <option value="701-800">S$701 - S$800</option>
+          <option value="801-1200">S$801 - S$1200</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="sortBy"><i class="fas fa-sort"></i> Sort By</label>
+        <select id="sortBy">
+          <option value="">Default Order</option>
+          <option value="height-asc">Height (Low-High)</option>
+          <option value="height-desc">Height (High-Low)</option>
+          <option value="weight-asc">Weight (Low-High)</option>
+          <option value="weight-desc">Weight (High-Low)</option>
+          <option value="age-asc">Age (Low-High)</option>
+          <option value="age-desc">Age (High-Low)</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button class="search-btn" onclick="searchHelpers()">
+          <i class="fas fa-search"></i> Search Helpers
+        </button>
+        <button class="reset-btn" onclick="resetFilters()">
+          <i class="fas fa-redo"></i> Reset Filters
+        </button>
+      </div>
+    </div>
+
+    <div class="results-header">
+      <h2>Available Helpers</h2>
+      <div class="results-count" id="resultsCount">Loading helpers...</div>
+    </div>
+
+    <div class="helper-grid" id="results">
+      <div class="empty-results">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Loading Helper Data</h3>
+        <p>Please wait while we load helper information from the database</p>
+      </div>
+    </div>
+    
+    <!-- Pagination Container -->
+    <div class="pagination" id="pagination">
+      <button class="pagination-btn" id="prevBtn" disabled>
+        <i class="fas fa-chevron-left"></i> Prev
+      </button>
+      <div class="page-info" id="pageInfo">Page 1 of 1</div>
+      <button class="pagination-btn" id="nextBtn" disabled>
+        Next <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="notification" id="notification"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
