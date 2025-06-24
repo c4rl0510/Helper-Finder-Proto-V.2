@@ -205,13 +205,6 @@ function searchHelpers() {
         h.experience.toLowerCase().includes(term) ||
         h.restDay.toLowerCase().includes(term) ||
         h.salary.toLowerCase().includes(term)  ||
-        (term === 'housekeep' && h.housekeeping) ||
-        (term === 'cooking' && h.cooking) ||
-        (term === 'infant care' && h.infantCare) ||
-        (term === 'elder care' && h.elderCare) ||
-        (term === 'child care' && h.childCare) ||
-        (term === 'pet care' && h.petCare)
-)
       );
 
     return (
