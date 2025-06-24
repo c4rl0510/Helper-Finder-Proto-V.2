@@ -5,6 +5,14 @@ let currentPage = 1;
 const helpersPerPage = 6;
 let totalPages = 1;
 let filteredHelpers = [];
+const skillsMap = {
+  housekeeping: "Housekeeping",
+  cooking: "Cooking",
+  childCare: "Child Care",
+  infantCare: "Infant Care",
+  elderCare: "Elder Care",
+  petCare: "Pet Care"
+};
 
 // Notification function
 function showNotification(message, type) {
@@ -163,6 +171,49 @@ function checkEnter(e) {
   if (e.key === 'Enter') searchHelpers();
 }
 
+// Get selected skills
+function getSelectedSkills() {
+  const skills = [];
+  document.querySelectorAll('.skills-dropdown input[type="checkbox"]:checked').forEach(checkbox => {
+    skills.push(checkbox.value);
+  });
+  return skills;
+}
+
+// Update selected skills display
+function updateSelectedSkillsDisplay() {
+  const selectedSkillsContainer = document.getElementById('selectedSkills');
+  selectedSkillsContainer.innerHTML = '';
+  
+  const selectedSkills = getSelectedSkills();
+  selectedSkills.forEach(skill => {
+    const skillElement = document.createElement('div');
+    skillElement.className = 'selected-skill';
+    skillElement.innerHTML = `
+      <span>${skillsMap[skill]}</span>
+      <i class="fas fa-times" onclick="removeSkill('${skill}')"></i>
+    `;
+    selectedSkillsContainer.appendChild(skillElement);
+  });
+  
+  // Update the skills select text
+  const skillsSelect = document.getElementById('skillsSelect');
+  if (selectedSkills.length > 0) {
+    skillsSelect.querySelector('span').textContent = selectedSkills.map(skill => skillsMap[skill]).join(', ');
+  } else {
+    skillsSelect.querySelector('span').textContent = 'Select skills...';
+  }
+}
+
+// Remove a selected skill
+function removeSkill(skill) {
+  const checkbox = document.getElementById(skill);
+  if (checkbox) {
+    checkbox.checked = false;
+    updateSelectedSkillsDisplay();
+  }
+}
+
 function searchHelpers() {
   const searchInput = document.getElementById('search').value.trim();
   const nationality = document.getElementById('nationality').value.toLowerCase();
@@ -172,6 +223,9 @@ function searchHelpers() {
   const weightRange = document.getElementById('weightRange').value;
   const salaryRange = document.getElementById('salaryRange').value;
   const sortBy = document.getElementById('sortBy').value;
+  
+  // Get selected skills
+  const selectedSkills = getSelectedSkills();
 
   // Process search terms - split by comma or space and remove empty terms
   const searchTerms = searchInput
@@ -204,11 +258,25 @@ function searchHelpers() {
         h.comments.toLowerCase().includes(term) ||
         h.experience.toLowerCase().includes(term) ||
         h.restDay.toLowerCase().includes(term) ||
-        h.salary.toLowerCase().includes(term) // Add salary to searchable fields
+        h.salary.toLowerCase().includes(term)
       );
+    
+    // Check if helper has all selected skills
+    const hasAllSelectedSkills = selectedSkills.every(skill => {
+      switch(skill) {
+        case 'housekeeping': return h.housekeeping;
+        case 'cooking': return h.cooking;
+        case 'childCare': return h.childCare;
+        case 'infantCare': return h.infantCare;
+        case 'elderCare': return h.elderCare;
+        case 'petCare': return h.petCare;
+        default: return true;
+      }
+    });
 
     return (
       matchesAllSearchTerms &&
+      hasAllSelectedSkills &&
       (!nationality || h.nationality.toLowerCase() === nationality) &&
       (!experience || h.experience.toLowerCase() === experience) &&
       (!religion || h.religion.toLowerCase() === religion) &&
@@ -274,6 +342,12 @@ function resetFilters() {
   document.getElementById('weightRange').value = '';
   document.getElementById('salaryRange').value = '';
   document.getElementById('sortBy').value = '';
+  
+  // Reset skills
+  document.querySelectorAll('.skills-dropdown input[type="checkbox"]').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  updateSelectedSkillsDisplay();
   
   // Reset helpers to original state
   helpers = [...originalHelpers];
@@ -474,4 +548,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add event listeners for pagination
   document.getElementById('prevBtn').addEventListener('click', prevPage);
   document.getElementById('nextBtn').addEventListener('click', nextPage);
+  
+  // Skills filter dropdown toggle
+  const skillsSelect = document.getElementById('skillsSelect');
+  const skillsDropdown = document.getElementById('skillsDropdown');
+  
+  skillsSelect.addEventListener('click', (e) => {
+    e.stopPropagation();
+    skillsDropdown.classList.toggle('active');
+    skillsSelect.classList.toggle('active');
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!skillsSelect.contains(e.target) {
+      skillsDropdown.classList.remove('active');
+      skillsSelect.classList.remove('active');
+    }
+  });
+  
+  // Update selected skills when a checkbox changes
+  document.querySelectorAll('.skills-dropdown input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedSkillsDisplay);
+  });
+  
+  // Initialize selected skills display
+  updateSelectedSkillsDisplay();
 });
