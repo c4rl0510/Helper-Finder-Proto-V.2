@@ -506,9 +506,128 @@ button {
   background: var(--primary);
 }
 
+/* Skills Filter */
+.skills-filter-container {
+  grid-column: span 2;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #e0e6ed;
+}
+
+.skills-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.skills-header i {
+  color: var(--primary);
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.skills-header h4 {
+  color: var(--dark);
+  font-size: 1.1rem;
+}
+
+.skills-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.skills-select {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  border: 2px solid #e0e6ed;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skills-select.active {
+  border-color: var(--primary);
+}
+
+.skills-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border: 2px solid #e0e6ed;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.skills-dropdown.active {
+  display: block;
+}
+
+.skill-option {
+  padding: 12px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.skill-option:hover {
+  background: #f0f7ff;
+}
+
+.skill-option input {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.selected-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.selected-skill {
+  background: #e1f0fa;
+  color: var(--primary);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selected-skill i {
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.selected-skill i:hover {
+  color: var(--danger);
+}
+
 @media (max-width: 768px) {
   .filters {
     grid-template-columns: 1fr;
+  }
+  
+  .skills-filter-container {
+    grid-column: span 1;
   }
   
   .button-group {
