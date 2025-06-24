@@ -55,7 +55,7 @@ async function loadData() {
     `;
 
     // Fetch data from SheetBest API
-    const res = await fetch('https://api.sheetbest.com/sheets/8da0a252-39e0-44ce-8f44-67f91884b9c1');
+    const res = await fetch('https://sheet.best/api/sheets/8da0a252-39e0-44ce-8f44-67f91884b9c1');
     if (!res.ok) {
       throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
     }
