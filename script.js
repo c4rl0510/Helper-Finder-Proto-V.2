@@ -55,7 +55,7 @@ async function loadData() {
     `;
 
     // Fetch data from SheetBest API
-    const res = await fetch('https://sheet.best/api/sheets/8da0a252-39e0-44ce-8f44-67f91884b9c1');
+    const res = await fetch('https://api.sheetbest.com/sheets/8da0a252-39e0-44ce-8f44-67f91884b9c1');
     if (!res.ok) {
       throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
     }
@@ -172,7 +172,7 @@ function searchHelpers() {
   const weightRange = document.getElementById('weightRange').value;
   const salaryRange = document.getElementById('salaryRange').value;
   const sortBy = document.getElementById('sortBy').value;
-  
+
   // Process search terms - split by comma or space and remove empty terms
   const searchTerms = searchInput
     .split(/[,\s]+/)
@@ -204,7 +204,7 @@ function searchHelpers() {
         h.comments.toLowerCase().includes(term) ||
         h.experience.toLowerCase().includes(term) ||
         h.restDay.toLowerCase().includes(term) ||
-        h.salary.toLowerCase().includes(term)  ||
+        h.salary.toLowerCase().includes(term) // Add salary to searchable fields
       );
 
     return (
