@@ -172,7 +172,7 @@ function searchHelpers() {
   const weightRange = document.getElementById('weightRange').value;
   const salaryRange = document.getElementById('salaryRange').value;
   const sortBy = document.getElementById('sortBy').value;
-
+  
   // Process search terms - split by comma or space and remove empty terms
   const searchTerms = searchInput
     .split(/[,\s]+/)
@@ -204,7 +204,14 @@ function searchHelpers() {
         h.comments.toLowerCase().includes(term) ||
         h.experience.toLowerCase().includes(term) ||
         h.restDay.toLowerCase().includes(term) ||
-        h.salary.toLowerCase().includes(term) // Add salary to searchable fields
+        h.salary.toLowerCase().includes(term)  ||
+        (term === 'housekeep' && h.housekeeping) ||
+        (term === 'cooking' && h.cooking) ||
+        (term === 'infant care' && h.infantCare) ||
+        (term === 'elder care' && h.elderCare) ||
+        (term === 'child care' && h.childCare) ||
+        (term === 'pet care' && h.petCare)
+)
       );
 
     return (
