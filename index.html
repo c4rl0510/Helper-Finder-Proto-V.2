@@ -925,7 +925,7 @@
         // Convert API data to our format
         helpers = json.map(h => ({
           code: h["MDW Code"] || 'N/A',
-          status: h["MDW Status"] || 'Available',
+          status: h["MDW Status"] || '',
           name: h["MDW Name"] || 'Unknown',
           nationality: h["Nationality"] || 'Unknown',
           experience: h["MDW Experience"] || 'Not specified',
@@ -948,16 +948,20 @@
         // Calculate age and status flags
         helpers.forEach(h => {
           h.age = calculateAge(h.dob);
-          h.isRejected = h.status.toLowerCase().includes('rejected');
-          h.isWithdrew = h.status.toLowerCase().includes('void');
-          h.isSelected = h.status.toLowerCase().includes('selected');
+          const statusStr = (h.status || '').toLowerCase();
+          h.isRejected = statusStr.includes('rejected');
+          h.isWithdrew = statusStr.includes('void');
+          h.isSelected = statusStr.includes('selected');
         });
 
         originalHelpers = [...helpers];
 
-        // Filter non-rejected helpers
+        // Filter non-rejected helpers AND those with non-blank status
         const nonRejected = helpers.filter(h =>
-          !h.isRejected && !h.isWithdrew && !h.isSelected
+          !h.isRejected && 
+          !h.isWithdrew && 
+          !h.isSelected &&
+          h.status.trim() !== '' // Hide blank status helpers
         );
 
         filteredHelpers = [...nonRejected];
@@ -1090,8 +1094,13 @@
       let salaryMin = 0, salaryMax = Infinity;
       if (salaryRange) [salaryMin, salaryMax] = salaryRange.split('-').map(Number);
 
-      // Filter out rejected helpers first
-      let filtered = helpers.filter(h => !h.isRejected && !h.isWithdrew && !h.isSelected);
+      // Filter out rejected helpers AND those with blank status
+      let filtered = helpers.filter(h => 
+        !h.isRejected && 
+        !h.isWithdrew && 
+        !h.isSelected &&
+        h.status.trim() !== '' // Hide blank status helpers
+      );
 
       // Apply other filters
       filtered = filtered.filter(h => {
@@ -1199,7 +1208,13 @@
       
       // Reset helpers to original state
       helpers = [...originalHelpers];
-      const nonRejected = helpers.filter(h => !h.isRejected && !h.isWithdrew && !h.isSelected);
+      // Filter non-rejected helpers AND those with non-blank status
+      const nonRejected = helpers.filter(h =>
+        !h.isRejected && 
+        !h.isWithdrew && 
+        !h.isSelected &&
+        h.status.trim() !== '' // Hide blank status helpers
+      );
       filteredHelpers = [...nonRejected];
       currentPage = 1;
       updatePagination(filteredHelpers);
